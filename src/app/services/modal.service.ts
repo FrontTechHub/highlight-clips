@@ -30,4 +30,9 @@ export class ModalService {
       visible: false,
     })
   }
+
+  unregister(id: string) {
+    // NOTE Avoiding leak memory, we need this function to unregister modal when their parent destroyed
+    this.modals = this.modals.filter((modal) => modal.id !== id);
+  }
 }
