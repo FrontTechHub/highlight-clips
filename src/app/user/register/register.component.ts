@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import {AuthService} from "../../services/auth.service";
+import IUser from "../../models/user.model";
 
 @Component({
   selector: 'app-register',
@@ -7,6 +9,8 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
+  inSubmission = false;
+
   name= new FormControl('', [
     Validators.required,
     Validators.minLength(5),
@@ -15,7 +19,7 @@ export class RegisterComponent {
     Validators.required,
     Validators.email,
   ]);
-  age= new FormControl('', [
+  age= new FormControl<number | null>(null, [
     Validators.required,
     Validators.min(18),
     Validators.max(120),
@@ -24,11 +28,11 @@ export class RegisterComponent {
     Validators.required,
     Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm)
   ]);
-  confirm_password= new FormControl('',[
+  confirmPassword= new FormControl('',[
     Validators.required,
     Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm)
   ]);
-  phone_number= new FormControl('', [
+  phoneNumber= new FormControl('', [
     Validators.required,
     Validators.minLength(10),
     Validators.maxLength(10)
@@ -38,16 +42,33 @@ export class RegisterComponent {
     email: this.email,
     age: this.age,
     password: this.password,
-    confirm_password: this.confirm_password,
-    phone_number: this.phone_number,
+    confirmPassword: this.confirmPassword,
+    phoneNumber: this.phoneNumber,
   });
 
   showAlert = false;
   alertMsg = 'Please wait ! Your account is being created';
   alertColor = 'blue';
-  register() {
+
+  constructor(
+    private authService: AuthService,
+  ) {
+  }
+  async register() {
+    this.inSubmission = true;
     this.showAlert = true;
-    this.alertMsg = 'Please wait ! Your account is being created';
+    this.alertMsg = 'Please wait! Your account is being created...';
     this.alertColor = 'blue';
+
+    try {
+      await this.authService.createUser(this.registerForm.value as IUser);
+    } catch (e) {
+      this.alertMsg = 'An unexpected error occurred. Please try again later';
+      this.alertColor = 'red';
+      this.inSubmission = false;
+      return;
+    }
+    this.alertMsg = 'Success! Your account has been created';
+    this.alertColor = 'green';
   }
 }
