@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-register',
@@ -42,7 +42,12 @@ export class RegisterComponent {
     phone_number: this.phone_number,
   });
 
+  showAlert = false;
+  alertMsg = 'Please wait ! Your account is being created';
+  alertColor = 'blue';
   register() {
-
+    this.showAlert = true;
+    this.alertMsg = 'Please wait ! Your account is being created';
+    this.alertColor = 'blue';
   }
 }
