@@ -10,7 +10,6 @@ interface IModal {
 })
 export class ModalService {
   private modals: IModal[] = [];
-  constructor() { }
 
   isModalOpen(id: string): boolean {
     // !! mean convert to Boolean type

@@ -40,7 +40,7 @@
        class="mt-6 rounded-tl-2xl rounded-br-2xl shadow-xl bg-secondary transform hover:-translate-y-2 hover:shadow-2xl transition duration-300">
 
       <!-- Image -->
-      <img class="card-img-top rounded-tl-2xl w-full" src="assets/img/1.jpg">
+      <img class="card-img-top rounded-tl-2xl w-full" src="assets/img/1.jpg" alt="">
 
       <!-- Shape -->
       <div class="relative">
@@ -75,7 +75,7 @@
        class="mt-6 rounded-tl-2xl rounded-br-2xl shadow-xl bg-secondary transform hover:-translate-y-2 hover:shadow-2xl transition duration-300">
 
       <!-- Image -->
-      <img class="card-img-top rounded-tl-2xl w-full" src="assets/img/2.jpg">
+      <img class="card-img-top rounded-tl-2xl w-full" src="assets/img/2.jpg" alt="">
 
       <!-- Shape -->
       <div class="relative">
@@ -110,7 +110,7 @@
        class="mt-6 rounded-tl-2xl rounded-br-2xl shadow-xl bg-secondary transform hover:-translate-y-2 hover:shadow-2xl transition duration-300">
 
       <!-- Image -->
-      <img class="card-img-top rounded-tl-2xl w-full" src="assets/img/3.jpg">
+      <img class="card-img-top rounded-tl-2xl w-full" src="assets/img/3.jpg" alt="">
 
       <!-- Shape -->
       <div class="relative">
@@ -145,7 +145,7 @@
        class="mt-6 rounded-tl-2xl rounded-br-2xl shadow-xl bg-secondary transform hover:-translate-y-2 hover:shadow-2xl transition duration-300">
 
       <!-- Image -->
-      <img class="card-img-top rounded-tl-2xl w-full" src="assets/img/2.jpg">
+      <img class="card-img-top rounded-tl-2xl w-full" src="assets/img/2.jpg" alt="">
 
       <!-- Shape -->
       <div class="relative">
@@ -180,7 +180,7 @@
        class="mt-6 rounded-tl-2xl rounded-br-2xl shadow-xl bg-secondary transform hover:-translate-y-2 hover:shadow-2xl transition duration-300">
 
       <!-- Image -->
-      <img class="card-img-top rounded-tl-2xl w-full" src="assets/img/3.jpg">
+      <img class="card-img-top rounded-tl-2xl w-full" src="assets/img/3.jpg" alt="">
 
       <!-- Shape -->
       <div class="relative">
@@ -215,7 +215,7 @@
        class="mt-6 rounded-tl-2xl rounded-br-2xl shadow-xl bg-secondary transform hover:-translate-y-2 hover:shadow-2xl transition duration-300">
 
       <!-- Image -->
-      <img class="card-img-top rounded-tl-2xl w-full" src="assets/img/1.jpg">
+      <img class="card-img-top rounded-tl-2xl w-full" src="assets/img/1.jpg" alt="">
 
       <!-- Shape -->
       <div class="relative">
@@ -248,6 +248,7 @@
     </a>
   </div>
 
-  <app-auth-modal></app-auth-modal>
+  <!-- the ngIf will help the app destroy the login/register modal -->
+  <app-auth-modal *ngIf="(auth.isAuthenticatedWithDelay$ | async) === false"></app-auth-modal>
 </section>
 
