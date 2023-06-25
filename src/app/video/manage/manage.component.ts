@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./manage.component.css']
 })
 export class ManageComponent {
-
 }
