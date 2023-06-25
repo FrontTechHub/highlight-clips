@@ -9,11 +9,11 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from '../environments/environment';
 import { HomeComponent } from './home/home.component';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AboutComponent } from './about/about.component';
-import {VideoModule} from "./video/video.module";
+import { VideoModule } from "./video/video.module";
 import { ClipComponent } from './clip/clip.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import {AppRoutingModule } from "./app-routing.module";
 
 @NgModule({
   declarations: [
@@ -24,16 +24,17 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ClipComponent,
     NotFoundComponent
   ],
+  // the order in the imports below is very important,
+  // Angular will register module in the order,
+  // and register the routing with same order as well
   imports: [
     BrowserModule,
     UserModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    RouterOutlet,
-    RouterLink,
-    RouterLinkActive,
     VideoModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
