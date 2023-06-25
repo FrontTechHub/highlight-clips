@@ -9,8 +9,9 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from '../environments/environment';
 import { HomeComponent } from './home/home.component';
-import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AboutComponent } from './about/about.component';
+import {VideoModule} from "./video/video.module";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { AboutComponent } from './about/about.component';
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
+    VideoModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
