@@ -2,22 +2,33 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ManageComponent } from './manage/manage.component';
 import { UploadComponent } from './upload/upload.component';
+import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/compat/auth-guard';
+
+const redirectUnauthorizedToHome = () => redirectUnauthorizedTo('/');
 
 // {authOnly = true} will let angular redirect to home page after logout
+// authGuardPipe method is managed by Angular
 const routes: Routes = [
   {
     path: 'manage',
     component: ManageComponent,
     data: {
       authOnly: true,
+      authGuardPipe: redirectUnauthorizedToHome,
     },
+    canActivate: [AngularFireAuthGuard]
   },
   {
     path: 'upload',
     component: UploadComponent,
     data: {
       authOnly: true,
+      authGuardPipe: redirectUnauthorizedToHome,
     },
+  },
+  {
+    path: 'manage-clips',
+    redirectTo: 'manage',
   },
 ];
 
