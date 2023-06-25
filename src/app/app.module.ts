@@ -12,13 +12,17 @@ import { HomeComponent } from './home/home.component';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AboutComponent } from './about/about.component';
 import {VideoModule} from "./video/video.module";
+import { ClipComponent } from './clip/clip.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     HomeComponent,
-    AboutComponent
+    AboutComponent,
+    ClipComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

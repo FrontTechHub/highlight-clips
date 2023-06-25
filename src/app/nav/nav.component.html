@@ -15,23 +15,28 @@
         </li>
         <ng-template #authLinks>
           <li>
+            <!-- routerLink will let the page redirect without reload all page     -->
+            <!-- routerLinkActive will compare the value of routerLink with URL of site, if it corrects
+                then Angular will assign class for that element -->
             <!-- routerLinkActiveOptions will let angular exactly compare the value of routerLink and URL on site-->
             <a class="px-2"
               routerLink="/manage"
                routerLinkActive="text-indigo-400"
                [routerLinkActiveOptions]="{exact: true}"
+               [queryParams]="{ sort: '1' }"
             >Manage</a>
           </li>
           <li>
-            <a class="px-2" href="#">Upload</a>
+            <a class="px-2"
+              routerLink="/upload"
+               routerLinkActive="text-indigo-400"
+               [routerLinkActiveOptions]="{exact: true}"
+            >Upload</a>
           </li>
           <li>
             <a class="px-2" href="#" (click)="auth.logout($event)">Logout</a>
           </li>
         </ng-template>
-        <!--   routerLink will let the page redirect without reload all page     -->
-        <!--   routerLinkActive will compare the value of routerLink with URL of site, if it corrects
-            then Angular will assign class for that element -->
         <li>
           <a class="px-2"
              routerLink="/about"
