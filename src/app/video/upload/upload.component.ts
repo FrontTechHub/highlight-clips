@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/compat/storage';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import { v4 as uuid } from 'uuid';
@@ -12,7 +12,7 @@ import { ClipService } from '../../services/clip.service';
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.css']
 })
-export class UploadComponent {
+export class UploadComponent implements OnDestroy {
   showAlert = false;
   alertMsg = 'Please wait ! Your clip is being uploaded';
   alertColor = 'blue';
@@ -34,6 +34,7 @@ export class UploadComponent {
   uploadForm = new FormGroup({
     title: this.title,
   });
+  task?: AngularFireUploadTask;
 
   constructor(
     private storage: AngularFireStorage,
@@ -43,6 +44,13 @@ export class UploadComponent {
     this.auth.user.subscribe(
       user => this.user = user,
     );
+  }
+
+  ngOnDestroy() {
+    // This function will trigger before the component destroyed
+    // the cancel() function will cancel the request to upload file to Firebase
+    // in-case when user redirect from upload component to another component
+    this.task?.cancel();
   }
 
   storeFile($event: Event) {
@@ -71,17 +79,17 @@ export class UploadComponent {
 
     const clipFileName = uuid();
     const clipPath = `clips/${clipFileName}.mp4`;
-    const task = this.storage.upload(clipPath, this.file);
+    this.task = this.storage.upload(clipPath, this.file);
     // Create reference to the file, the ref is an object point to a specific file,
     // this one can be created before uploading completed
     const clipRef = this.storage.ref(clipPath);
 
-    task.percentageChanges().subscribe(
+    this.task.percentageChanges().subscribe(
       progress => {
         this.percentage = progress as number / 100;
       },
     );
-    task.snapshotChanges().pipe(
+    this.task.snapshotChanges().pipe(
       last(),
       switchMap(() => clipRef.getDownloadURL())
     ).subscribe({
