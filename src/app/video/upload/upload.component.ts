@@ -47,7 +47,9 @@ export class UploadComponent {
 
   storeFile($event: Event) {
     this.isDragover = false;
-    this.file = ($event as DragEvent).dataTransfer?.files.item(0) ?? null;
+    this.file = ($event as DragEvent).dataTransfer ?
+      ($event as DragEvent).dataTransfer?.files.item(0) ?? null :
+      ($event.target as HTMLInputElement).files?.item(0) ?? null;
     if (!this.file || this.file.type !== 'video/mp4') {
       return;
     }
@@ -56,6 +58,11 @@ export class UploadComponent {
   }
 
   async uploadFile() {
+    // disable function is available on all group
+    // In-case during uploading is processing, we don't want user touch to any control group in form
+    // this.uploadForm.disable();
+
+    // but in this case inSubmission already covered it.
     this.inSubmission = true;
     this.showPercentage = true;
     this.showAlert = true;
@@ -95,6 +102,7 @@ export class UploadComponent {
         this.showPercentage = false;
       },
       error: () => {
+        // this.uploadForm.enable();
         this.showPercentage = false;
         this.inSubmission = false;
         this.alertColor = 'red';
