@@ -15,7 +15,7 @@ export class ManageComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private clip: ClipService,
+    private clipService: ClipService,
     private modal: ModalService,
   ) {}
 
@@ -23,7 +23,7 @@ export class ManageComponent implements OnInit {
     this.route.queryParams.subscribe((params: Params) => {
       this.videoOrder = params.sort === '2' ? params.sort : '1';
     });
-    this.clip.getUserClips().subscribe(docs => {
+    this.clipService.getUserClips().subscribe(docs => {
       this.clips = [];
       docs.forEach(doc => {
         this.clips.push(({
@@ -56,5 +56,25 @@ export class ManageComponent implements OnInit {
 
     this.activeClip = clip;
     this.modal.toggleModal('editClip');
+  }
+
+  public update($event: IClip) {
+    this.clips.forEach((clip, index) => {
+      if (clip.docId === $event.docId) {
+        this.clips[index].title = $event.title;
+      }
+    })
+  }
+
+  public async deleteClip($event: Event, clip: IClip) {
+    $event.preventDefault();
+
+    await this.clipService.deleteClip(clip);
+
+    this.clips.forEach((ele, index) => {
+      if (ele.docId === clip.docId) {
+        this.clips.splice(index, 1);
+      }
+    })
   }
 }

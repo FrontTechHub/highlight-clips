@@ -8,6 +8,7 @@ import {
 import IClip from '../models/clip.model';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { of, switchMap, map } from 'rxjs';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class ClipService {
   constructor(
     public db: AngularFirestore,
     public auth: AngularFireAuth,
+    public storage: AngularFireStorage,
   ) {
     this.clipCollection = this.db.collection('clips');
   }
@@ -46,5 +48,14 @@ export class ClipService {
     return this.clipCollection.doc(id).update({
       title,
     });
+  }
+
+  public async deleteClip(clip: IClip) {
+    // Delete file
+    const clipRef = this.storage.ref(`clips/${clip.fileName}`);
+    await clipRef.delete();
+
+    // Delete document
+    await this.clipCollection.doc(clip.docId).delete();
   }
 }
